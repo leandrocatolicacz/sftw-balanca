@@ -11,10 +11,10 @@ public class Main {
 
         List<Produto> products = Arrays.asList(product);
         System.out.println("-----------FINXOLA_SMART------------");
-        FabricadeBalancas.getBalance(TypeBalance.FINZOLA_SMART).export(products);
+        FabricadeBalancas.getBalance(TypeBalance.FINZOLA_SMART).export(products,".");
         System.out.println("-----------TOLEDO_MGV6------------");
-        FabricadeBalancas.getBalance(TypeBalance.TOLETO_MGV6).export(products);
+        FabricadeBalancas.getBalance(TypeBalance.TOLETO_MGV6).export(products, ".");
         System.out.println("-----------URANO_INTEGRA------------");
-        FabricadeBalancas.getBalance(TypeBalance.URANO_INTEGRA).export(products);
+        FabricadeBalancas.getBalance(TypeBalance.URANO_INTEGRA).export(products, ".");
     }
 }

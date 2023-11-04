@@ -1,5 +1,6 @@
 package classes;
 
+import classes.exceptions.ObjetoNulo;
 import interfaces.Balanca;
 
 import java.io.BufferedWriter;
@@ -12,8 +13,16 @@ import java.util.stream.Collectors;
 public class UranoIntegra implements Balanca<Produto> {
 
     @Override
-    public void export(List<Produto> products) {
-        String result = products.stream().map(product ->
+    public void export(List<Produto> products, String path) {
+        if(products.isEmpty()){
+            throw new ObjetoNulo("Lista vazia");
+        }
+        try {
+        String result = products.stream().peek(produto -> {
+            if(produto == null){
+                throw new ObjetoNulo("Produto nulo");
+            }
+        }).map(product ->
                 String.format("%06d", product.getCode()) +
                         "*" +
                         "0" +
@@ -23,15 +32,14 @@ public class UranoIntegra implements Balanca<Produto> {
                         "D"
         ).collect(Collectors.joining("\n"));
 
-        System.out.println(result);
-
-        try {
-            File file = new File("PRODUTOS.TXT");
+            File file = new File(path+"/PRODUTOS.TXT");
             BufferedWriter writer = new BufferedWriter(new FileWriter(file));
             writer.write(result);
             writer.close();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.err.println(e.getMessage());
+        }catch (ObjetoNulo e){
+            System.err.println(e.getMessage());
         }
     }
 }
